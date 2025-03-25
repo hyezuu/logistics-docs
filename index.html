@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>상품 및 재고 API 문서</title>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.18.3/swagger-ui.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.18.3/swagger-ui.css" rel="stylesheet" type="text/css"/>
   <style>
     html {
       box-sizing: border-box;
@@ -30,8 +30,410 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.18.3/swagger-ui-standalone-preset.js"></script>
   <script>
     window.onload = function() {
+      // OpenAPI 명세를 직접 JavaScript 객체로 정의
+      const spec = {
+        "openapi": "3.0.1",
+        "info": {
+          "title": "PRODUCT API",
+          "description": "상품 및 재고에 관련된 api 문서 입니다",
+          "version": "1.0.0"
+        },
+        "servers": [
+          {
+            "url": "http://localhost:19000"
+          }
+        ],
+        "tags": [
+          {
+            "name": "Stock-Internal",
+            "description": "재고 관리 내부 API"
+          },
+          {
+            "name": "Stock-External",
+            "description": "재고 관리 외부 API"
+          },
+          {
+            "name": "Product-External",
+            "description": "상품 관리 외부 API"
+          }
+        ],
+        "paths": {
+          "/api/v1/products": {
+            "post": {
+              "tags": [
+                "Product-External"
+              ],
+              "summary": "상품 생성",
+              "description": "상품을 생성하기 위한 엔드포인트입니다.",
+              "operationId": "상품 생성",
+              "requestBody": {
+                "content": {
+                  "application/json;charset=UTF-8": {
+                    "schema": {
+                      "$ref": "#/components/schemas/api-v1-products1432667872"
+                    },
+                    "examples": {
+                      "상품 생성 - 필수 필드 입력": {
+                        "value": {
+                          "name": "유기농 바나나",
+                          "companyId": "df655f97-6f7c-3d32-a381-5bd981225cd9",
+                          "hubId": "e8bd6fc6-837f-3ccb-a4c3-6eddf0a4faed",
+                          "quantity": 100
+                        }
+                      },
+                      "상품 생성 - 기본 재고 수량": {
+                        "value": {
+                          "name": "프리미엄 사과",
+                          "companyId": "d196a280-9711-3067-befd-73d25b0c0be8",
+                          "hubId": "a1a3a2e2-06e0-3099-861a-3f830891dd80",
+                          "quantity": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "201": {
+                  "description": "201",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/api-v1-products486549215"
+                      },
+                      "examples": {
+                        "상품 생성 - 필수 필드 입력": {
+                          "value": {
+                            "productId": "334e1954-4a1f-4017-b4db-e5fef225dd50",
+                            "name": "유기농 바나나",
+                            "companyId": "df655f97-6f7c-3d32-a381-5bd981225cd9",
+                            "hubId": "e8bd6fc6-837f-3ccb-a4c3-6eddf0a4faed",
+                            "quantity": 100,
+                            "createdAt": "2025-03-21T12:00:00"
+                          }
+                        },
+                        "상품 생성 - 기본 재고 수량": {
+                          "value": {
+                            "productId": "90efd2a2-85ac-4bb9-8055-59a458345bf6",
+                            "name": "프리미엄 사과",
+                            "companyId": "d196a280-9711-3067-befd-73d25b0c0be8",
+                            "hubId": "a1a3a2e2-06e0-3099-861a-3f830891dd80",
+                            "quantity": 0,
+                            "createdAt": "2025-03-21T12:00:00"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "security": [
+                {
+                  "bearerAuthJWT": []
+                }
+              ]
+            }
+          },
+          "/api/v1/stock": {
+            "get": {
+              "tags": [
+                "Stock-External"
+              ],
+              "summary": "재고 ID로 조회",
+              "description": "재고 ID로 재고를 조회합니다",
+              "operationId": "재고 ID로 조회",
+              "requestBody": {
+                "content": {
+                  "application/json;charset=UTF-8": {
+                    "schema": {
+                      "$ref": "#/components/schemas/api-v1-stock-499219079"
+                    },
+                    "examples": {
+                      "재고 ID로 조회": {
+                        "value": {
+                          "productId": "2529685c-9efe-3c04-89ab-e130961edca0",
+                          "hubId": "c5e5ceac-0fa5-324e-8a4d-7f89af3cecbe"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "200",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/api-v1-products486549215"
+                      },
+                      "examples": {
+                        "재고 ID로 조회": {
+                          "value": {
+                            "stockId": {
+                              "productId": "2529685c-9efe-3c04-89ab-e130961edca0",
+                              "hubId": "c5e5ceac-0fa5-324e-8a4d-7f89af3cecbe"
+                            },
+                            "quantity": 100,
+                            "updatedAt": "2025-03-25T14:39:13.783471"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "delete": {
+              "tags": [
+                "Stock-External"
+              ],
+              "summary": "재고 삭제",
+              "description": "재고를 삭제합니다",
+              "operationId": "재고 삭제",
+              "requestBody": {
+                "content": {
+                  "application/json;charset=UTF-8": {
+                    "schema": {
+                      "$ref": "#/components/schemas/api-v1-stock-1972769597"
+                    },
+                    "examples": {
+                      "재고 삭제": {
+                        "value": {
+                          "productId": "fc591f49-0dd3-3040-9ceb-e2b6cdf629a9",
+                          "hubId": "44c919f6-9d06-3c16-ad89-f74faca11d51"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "204": {
+                  "description": "204"
+                }
+              },
+              "security": [
+                {
+                  "bearerAuthJWT": []
+                }
+              ]
+            }
+          },
+          "/api/v1/app/stock": {
+            "get": {
+              "tags": [
+                "Stock-Internal"
+              ],
+              "summary": "상품 ID로 재고 조회",
+              "description": "상품 ID로 재고를 조회합니다",
+              "operationId": "상품 ID로 재고 조회",
+              "parameters": [
+                {
+                  "name": "productId",
+                  "in": "query",
+                  "description": "상품 ID",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "200",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/api-v1-products486549215"
+                      },
+                      "examples": {
+                        "상품 ID로 재고 조회": {
+                          "value": {
+                            "stockId": {
+                              "productId": "f26b0d8f-252a-36f2-b993-37cced08314b",
+                              "hubId": "a1a3a2e2-06e0-3099-861a-3f830891dd80"
+                            },
+                            "quantity": 100,
+                            "updatedAt": "2025-03-25T14:39:13.88917"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "post": {
+              "tags": [
+                "Stock-Internal"
+              ],
+              "summary": "재고 생성",
+              "description": "재고를 생성하기 위한 엔드포인트입니다.",
+              "operationId": "재고 생성",
+              "requestBody": {
+                "content": {
+                  "application/json;charset=UTF-8": {
+                    "schema": {
+                      "$ref": "#/components/schemas/api-v1-app-stock-658614085"
+                    },
+                    "examples": {
+                      "재고 생성": {
+                        "value": {
+                          "stockId": {
+                            "productId": "cf682b73-be1a-3ad4-bd0f-32559ac34627",
+                            "hubId": "e8bd6fc6-837f-3ccb-a4c3-6eddf0a4faed"
+                          },
+                          "quantity": 100
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "200",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/api-v1-products486549215"
+                      },
+                      "examples": {
+                        "재고 생성": {
+                          "value": {
+                            "stockId": {
+                              "productId": "cf682b73-be1a-3ad4-bd0f-32559ac34627",
+                              "hubId": "e8bd6fc6-837f-3ccb-a4c3-6eddf0a4faed"
+                            },
+                            "quantity": 100,
+                            "createdAt": "2025-03-25T14:39:13.851697"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "security": [
+                {
+                  "bearerAuthJWT": []
+                }
+              ]
+            }
+          }
+        },
+        "components": {
+          "schemas": {
+            "api-v1-products1432667872": {
+              "required": [
+                "companyId",
+                "hubId",
+                "name",
+                "quantity"
+              ],
+              "type": "object",
+              "properties": {
+                "hubId": {
+                  "type": "string",
+                  "description": "허브 ID"
+                },
+                "companyId": {
+                  "type": "string",
+                  "description": "업체 ID"
+                },
+                "quantity": {
+                  "type": "number",
+                  "description": "초기 재고 수량 (null 가능, 기본값 0)"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "상품 이름"
+                }
+              }
+            },
+            "api-v1-app-stock-658614085": {
+              "required": [
+                "quantity",
+                "stockId"
+              ],
+              "type": "object",
+              "properties": {
+                "quantity": {
+                  "type": "number",
+                  "description": "재고 수량"
+                },
+                "stockId": {
+                  "required": [
+                    "hubId",
+                    "productId"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "hubId": {
+                      "type": "string",
+                      "description": "허브 ID"
+                    },
+                    "productId": {
+                      "type": "string",
+                      "description": "상품 ID"
+                    }
+                  },
+                  "description": "재고 ID 정보"
+                }
+              }
+            },
+            "api-v1-stock-499219079": {
+              "required": [
+                "hubId",
+                "productId"
+              ],
+              "type": "object",
+              "properties": {
+                "hubId": {
+                  "type": "string",
+                  "description": "조회할 허브 ID"
+                },
+                "productId": {
+                  "type": "string",
+                  "description": "조회할 상품 ID"
+                }
+              }
+            },
+            "api-v1-stock-1972769597": {
+              "required": [
+                "hubId",
+                "productId"
+              ],
+              "type": "object",
+              "properties": {
+                "hubId": {
+                  "type": "string",
+                  "description": "삭제할 허브 ID"
+                },
+                "productId": {
+                  "type": "string",
+                  "description": "삭제할 상품 ID"
+                }
+              }
+            },
+            "api-v1-products486549215": {
+              "type": "object"
+            }
+          },
+          "securitySchemes": {
+            "bearerAuthJWT": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        }
+      };
+
+      // Swagger UI 초기화
       const ui = SwaggerUIBundle({
-        url: "openapi.json", // API 명세 파일 경로
+        spec: spec,
         dom_id: '#swagger-ui',
         deepLinking: true,
         presets: [
