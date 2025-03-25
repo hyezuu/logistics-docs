@@ -1,465 +1,909 @@
 {
-  "openapi": "3.0.1",
-  "info": {
-    "title": "PRODUCT API",
-    "description": "상품 및 재고에 관련된 api 문서 입니다",
-    "version": "1.0.0"
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "PRODUCT API",
+    "description" : "상품 및 재고에 관련된 api 문서 입니다",
+    "version" : "1.0.0"
   },
-  "servers": [
-    {
-      "url": "http://localhost:19000"
+  "servers" : [ {
+    "url" : "http://localhost:19000"
+  } ],
+  "tags" : [ {
+    "name" : "Stock-Internal",
+    "description" : "재고 관리 내부 API"
+  }, {
+    "name" : "Stock-External",
+    "description" : "재고 관리 외부 API"
+  }, {
+    "name" : "Product-External",
+    "description" : "상품 관리 외부 API"
+  } ],
+  "paths" : {
+    "/api/v1/products" : {
+      "post" : {
+        "tags" : [ "Product-External" ],
+        "summary" : "상품 생성",
+        "description" : "상품을 생성하기 위한 엔드포인트입니다.",
+        "operationId" : "상품 생성 - ",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v1-products1432667872"
+              },
+              "examples" : {
+                "상품 생성 - 필수 필드 입력" : {
+                  "value" : "{\n  \"name\" : \"유기농 바나나\",\n  \"companyId\" : \"df655f97-6f7c-3d32-a381-5bd981225cd9\",\n  \"hubId\" : \"e8bd6fc6-837f-3ccb-a4c3-6eddf0a4faed\",\n  \"quantity\" : 100\n}"
+                },
+                "상품 생성 - 기본 재고 수량" : {
+                  "value" : "{\n  \"name\" : \"프리미엄 사과\",\n  \"companyId\" : \"d196a280-9711-3067-befd-73d25b0c0be8\",\n  \"hubId\" : \"a1a3a2e2-06e0-3099-861a-3f830891dd80\",\n  \"quantity\" : 0\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "201",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v1-products486549215"
+                },
+                "examples" : {
+                  "상품 생성 - 필수 필드 입력" : {
+                    "value" : "{\n  \"productId\" : \"334e1954-4a1f-4017-b4db-e5fef225dd50\",\n  \"name\" : \"유기농 바나나\",\n  \"companyId\" : \"df655f97-6f7c-3d32-a381-5bd981225cd9\",\n  \"hubId\" : \"e8bd6fc6-837f-3ccb-a4c3-6eddf0a4faed\",\n  \"quantity\" : 100,\n  \"createdAt\" : \"2025-03-21T12:00:00\"\n}"
+                  },
+                  "상품 생성 - 기본 재고 수량" : {
+                    "value" : "{\n  \"productId\" : \"90efd2a2-85ac-4bb9-8055-59a458345bf6\",\n  \"name\" : \"프리미엄 사과\",\n  \"companyId\" : \"d196a280-9711-3067-befd-73d25b0c0be8\",\n  \"hubId\" : \"a1a3a2e2-06e0-3099-861a-3f830891dd80\",\n  \"quantity\" : 0,\n  \"createdAt\" : \"2025-03-21T12:00:00\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuthJWT" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/stock" : {
+      "get" : {
+        "tags" : [ "Stock-External" ],
+        "summary" : "재고 ID로 조회",
+        "description" : "재고 ID로 재고를 조회합니다",
+        "operationId" : "재고 ID로 조회",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v1-stock-499219079"
+              },
+              "examples" : {
+                "재고 ID로 조회" : {
+                  "value" : "{\n  \"productId\" : \"2529685c-9efe-3c04-89ab-e130961edca0\",\n  \"hubId\" : \"c5e5ceac-0fa5-324e-8a4d-7f89af3cecbe\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v1-products486549215"
+                },
+                "examples" : {
+                  "재고 ID로 조회" : {
+                    "value" : "{\n  \"stockId\" : {\n    \"productId\" : \"2529685c-9efe-3c04-89ab-e130961edca0\",\n    \"hubId\" : \"c5e5ceac-0fa5-324e-8a4d-7f89af3cecbe\"\n  },\n  \"quantity\" : 100,\n  \"updatedAt\" : \"2025-03-25T14:39:13.783471\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Stock-External" ],
+        "summary" : "재고 삭제",
+        "description" : "재고를 삭제합니다",
+        "operationId" : "재고 삭제",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v1-stock-1972769597"
+              },
+              "examples" : {
+                "재고 삭제" : {
+                  "value" : "{\n  \"productId\" : \"fc591f49-0dd3-3040-9ceb-e2b6cdf629a9\",\n  \"hubId\" : \"44c919f6-9d06-3c16-ad89-f74faca11d51\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "204"
+          }
+        },
+        "security" : [ {
+          "bearerAuthJWT" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/app/stock" : {
+      "get" : {
+        "tags" : [ "Stock-Internal" ],
+        "summary" : "상품 ID로 재고 조회",
+        "description" : "상품 ID로 재고를 조회합니다",
+        "operationId" : "상품 ID로 재고 조회",
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "query",
+          "description" : "상품 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v1-products486549215"
+                },
+                "examples" : {
+                  "상품 ID로 재고 조회" : {
+                    "value" : "{\n  \"stockId\" : {\n    \"productId\" : \"f26b0d8f-252a-36f2-b993-37cced08314b\",\n    \"hubId\" : \"a1a3a2e2-06e0-3099-861a-3f830891dd80\"\n  },\n  \"quantity\" : 100,\n  \"updatedAt\" : \"2025-03-25T14:39:13.88917\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Stock-Internal" ],
+        "summary" : "재고 생성",
+        "description" : "재고를 생성하기 위한 엔드포인트입니다.",
+        "operationId" : "재고 생성",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v1-app-stock-658614085"
+              },
+              "examples" : {
+                "재고 생성" : {
+                  "value" : "{\n  \"stockId\" : {\n    \"productId\" : \"cf682b73-be1a-3ad4-bd0f-32559ac34627\",\n    \"hubId\" : \"e8bd6fc6-837f-3ccb-a4c3-6eddf0a4faed\"\n  },\n  \"quantity\" : 100\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v1-products486549215"
+                },
+                "examples" : {
+                  "재고 생성" : {
+                    "value" : "{\n  \"stockId\" : {\n    \"productId\" : \"cf682b73-be1a-3ad4-bd0f-32559ac34627\",\n    \"hubId\" : \"e8bd6fc6-837f-3ccb-a4c3-6eddf0a4faed\"\n  },\n  \"quantity\" : 100,\n  \"createdAt\" : \"2025-03-25T14:39:13.851697\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuthJWT" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/products/search" : {
+      "get" : {
+        "tags" : [ "Product-External" ],
+        "summary" : "상품 정렬 및 페이징 검색",
+        "description" : "정렬 및 페이징 옵션을 적용하여 검색합니다.",
+        "operationId" : "상품 ",
+        "parameters" : [ {
+          "name" : "sortBy",
+          "in" : "query",
+          "description" : "정렬 기준 필드 (기본값: createdAt)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "isAsc",
+          "in" : "query",
+          "description" : "오름차순 여부 (true: 오름차순, false: 내림차순, 기본값: false)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "페이지 번호 (0부터 시작, 기본값: 0)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "페이지 크기 (유효한 값: 10, 30, 50, 기본값: 10)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "query",
+          "description" : "검색할 상품 이름",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "companyId",
+          "in" : "query",
+          "description" : "검색할 업체 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v1-products486549215"
+                },
+                "examples" : {
+                  "상품 정렬 및 페이징 검색" : {
+                    "value" : "{\n  \"content\" : [ {\n    \"productId\" : \"d0aa80b3-ca4d-438c-acd8-cef990c80d4b\",\n    \"name\" : \"유기농 바나나\",\n    \"companyId\" : \"65ea5875-9487-3112-b8c2-34e510c34817\",\n    \"createdAt\" : \"2025-03-25T14:39:09.312948\",\n    \"updatedAt\" : \"2025-03-25T14:39:09.312948\"\n  }, {\n    \"productId\" : \"f28fb892-884a-43c1-8420-bc26f9294598\",\n    \"name\" : \"프리미엄 사과\",\n    \"companyId\" : \"65ea5875-9487-3112-b8c2-34e510c34817\",\n    \"createdAt\" : \"2025-03-25T14:39:09.315572\",\n    \"updatedAt\" : \"2025-03-25T14:39:09.315572\"\n  } ],\n  \"page\" : 0,\n  \"size\" : 10,\n  \"totalElements\" : 2,\n  \"totalPages\" : 1\n}"
+                  },
+                  "상품 이름으로 검색" : {
+                    "value" : "{\n  \"content\" : [ {\n    \"productId\" : \"f28fb892-884a-43c1-8420-bc26f9294598\",\n    \"name\" : \"프리미엄 사과\",\n    \"companyId\" : \"65ea5875-9487-3112-b8c2-34e510c34817\",\n    \"createdAt\" : \"2025-03-25T14:39:09.315572\",\n    \"updatedAt\" : \"2025-03-25T14:39:09.315572\"\n  }, {\n    \"productId\" : \"d0aa80b3-ca4d-438c-acd8-cef990c80d4b\",\n    \"name\" : \"유기농 바나나\",\n    \"companyId\" : \"65ea5875-9487-3112-b8c2-34e510c34817\",\n    \"createdAt\" : \"2025-03-25T14:39:09.312948\",\n    \"updatedAt\" : \"2025-03-25T14:39:09.312948\"\n  } ],\n  \"page\" : 0,\n  \"size\" : 10,\n  \"totalElements\" : 2,\n  \"totalPages\" : 1\n}"
+                  },
+                  "상품 검색 - 기본" : {
+                    "value" : "{\n  \"content\" : [ {\n    \"productId\" : \"f28fb892-884a-43c1-8420-bc26f9294598\",\n    \"name\" : \"프리미엄 사과\",\n    \"companyId\" : \"65ea5875-9487-3112-b8c2-34e510c34817\",\n    \"createdAt\" : \"2025-03-25T14:39:09.315572\",\n    \"updatedAt\" : \"2025-03-25T14:39:09.315572\"\n  }, {\n    \"productId\" : \"d0aa80b3-ca4d-438c-acd8-cef990c80d4b\",\n    \"name\" : \"유기농 바나나\",\n    \"companyId\" : \"65ea5875-9487-3112-b8c2-34e510c34817\",\n    \"createdAt\" : \"2025-03-25T14:39:09.312948\",\n    \"updatedAt\" : \"2025-03-25T14:39:09.312948\"\n  } ],\n  \"page\" : 0,\n  \"size\" : 10,\n  \"totalElements\" : 2,\n  \"totalPages\" : 1\n}"
+                  },
+                  "상품 업체 ID로 검색" : {
+                    "value" : "{\n  \"content\" : [ {\n    \"productId\" : \"f28fb892-884a-43c1-8420-bc26f9294598\",\n    \"name\" : \"프리미엄 사과\",\n    \"companyId\" : \"65ea5875-9487-3112-b8c2-34e510c34817\",\n    \"createdAt\" : \"2025-03-25T14:39:09.315572\",\n    \"updatedAt\" : \"2025-03-25T14:39:09.315572\"\n  }, {\n    \"productId\" : \"d0aa80b3-ca4d-438c-acd8-cef990c80d4b\",\n    \"name\" : \"유기농 바나나\",\n    \"companyId\" : \"65ea5875-9487-3112-b8c2-34e510c34817\",\n    \"createdAt\" : \"2025-03-25T14:39:09.312948\",\n    \"updatedAt\" : \"2025-03-25T14:39:09.312948\"\n  } ],\n  \"page\" : 0,\n  \"size\" : 10,\n  \"totalElements\" : 2,\n  \"totalPages\" : 1\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/{productId}" : {
+      "get" : {
+        "tags" : [ "Product-External" ],
+        "summary" : "상품 정보 조회",
+        "description" : "상품 정보를 조회합니다",
+        "operationId" : "상품 정보 조회",
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "조회할 상품 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v1-products486549215"
+                },
+                "examples" : {
+                  "상품 정보 조회" : {
+                    "value" : "{\n  \"productId\" : \"d72a7f58-5eb9-40cc-8998-211f60808994\",\n  \"name\" : \"유기농 바나나\",\n  \"companyId\" : \"856dfd90-4554-3fa7-a7ef-6ad392835eb0\",\n  \"createdAt\" : \"2025-03-25T14:39:09.26821\",\n  \"updatedAt\" : \"2025-03-25T14:39:09.26821\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Product-External" ],
+        "summary" : "상품 삭제",
+        "description" : "상품을 삭제합니다",
+        "operationId" : "상품 삭제",
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "삭제할 상품 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204"
+          }
+        },
+        "security" : [ {
+          "bearerAuthJWT" : [ ]
+        } ]
+      },
+      "patch" : {
+        "tags" : [ "Product-External" ],
+        "summary" : "상품 이름 수정",
+        "description" : "상품 이름을 수정합니다",
+        "operationId" : "상품 이름 수정",
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "수정할 상품 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v1-products-productId-1777284481"
+              },
+              "examples" : {
+                "상품 이름 수정" : {
+                  "value" : "{\n  \"name\" : \"프리미엄 유기농 바나나\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v1-products486549215"
+                },
+                "examples" : {
+                  "상품 이름 수정" : {
+                    "value" : "{\n  \"productId\" : \"cdee4f2a-5c35-48a7-8651-5d5cca354e66\",\n  \"name\" : \"프리미엄 유기농 바나나\",\n  \"companyId\" : \"e828ae33-39b8-380b-b902-c1564578804e\",\n  \"updatedAt\" : \"2025-03-25T14:39:09.158336\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuthJWT" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/stock/decrease" : {
+      "patch" : {
+        "tags" : [ "Stock-External" ],
+        "summary" : "재고 수량 감소",
+        "description" : "재고 수량을 감소시킵니다",
+        "operationId" : "재고 수량 감소",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v1-stock-decrease-1796334445"
+              },
+              "examples" : {
+                "재고 수량 감소" : {
+                  "value" : "{\n  \"stockId\" : {\n    \"productId\" : \"c0f1d4e2-8de1-3be5-9e7b-af5b41e58583\",\n    \"hubId\" : \"5c2aa03d-7634-3093-b698-ba84832a3c4c\"\n  },\n  \"quantity\" : 30\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v1-products486549215"
+                },
+                "examples" : {
+                  "재고 수량 감소" : {
+                    "value" : "{\n  \"stockId\" : {\n    \"productId\" : \"c0f1d4e2-8de1-3be5-9e7b-af5b41e58583\",\n    \"hubId\" : \"5c2aa03d-7634-3093-b698-ba84832a3c4c\"\n  },\n  \"quantity\" : 70\n}"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuthJWT" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/stock/increase" : {
+      "patch" : {
+        "tags" : [ "Stock-External" ],
+        "summary" : "특정 재고 수량 증가",
+        "description" : "특정 재고의 수량을 증가시킵니다",
+        "operationId" : "재고 수량 증가특정 재고 수량 증가",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v1-stock-increase1920300722"
+              },
+              "examples" : {
+                "특정 재고 수량 증가" : {
+                  "value" : "{\n  \"stockId\" : {\n    \"productId\" : \"f1dedb2a-714c-36ac-8165-b86210354630\",\n    \"hubId\" : \"2bf3099d-c1e1-37db-a601-7730342ec116\"\n  },\n  \"quantity\" : 50\n}"
+                },
+                "재고 수량 증가" : {
+                  "value" : "{\n  \"stockId\" : {\n    \"productId\" : \"f1dedb2a-714c-36ac-8165-b86210354630\",\n    \"hubId\" : \"2bf3099d-c1e1-37db-a601-7730342ec116\"\n  },\n  \"quantity\" : 50\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v1-products486549215"
+                },
+                "examples" : {
+                  "특정 재고 수량 증가" : {
+                    "value" : "{\n  \"stockId\" : {\n    \"productId\" : \"f1dedb2a-714c-36ac-8165-b86210354630\",\n    \"hubId\" : \"2bf3099d-c1e1-37db-a601-7730342ec116\"\n  },\n  \"quantity\" : 150\n}"
+                  },
+                  "재고 수량 증가" : {
+                    "value" : "{\n  \"stockId\" : {\n    \"productId\" : \"f1dedb2a-714c-36ac-8165-b86210354630\",\n    \"hubId\" : \"2bf3099d-c1e1-37db-a601-7730342ec116\"\n  },\n  \"quantity\" : 150\n}"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuthJWT" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/stock/search" : {
+      "get" : {
+        "tags" : [ "Stock-External" ],
+        "summary" : "허브 ID로 재고 검색",
+        "description" : "허브 ID로 재고를 검색합니다",
+        "operationId" : "재고 검색 - ",
+        "parameters" : [ {
+          "name" : "hubId",
+          "in" : "query",
+          "description" : "검색할 허브 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "페이지 크기 (유효한 값: 10, 30, 50, 기본값: 10)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "productId",
+          "in" : "query",
+          "description" : "검색할 상품 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "isAsc",
+          "in" : "query",
+          "description" : "오름차순 여부 (true: 오름차순, false: 내림차순, 기본값: false)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sortBy",
+          "in" : "query",
+          "description" : "정렬 기준 필드 (기본값: createdAt)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "페이지 번호 (0부터 시작, 기본값: 0)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v1-products486549215"
+                },
+                "examples" : {
+                  "재고 검색 - 허브 ID" : {
+                    "value" : "{\n  \"content\" : [ {\n    \"stockId\" : {\n      \"productId\" : \"d36cf398-1c5b-35e6-aa62-9bf7c17e6e00\",\n      \"hubId\" : \"9044acae-de31-3314-a4da-e54e2b995891\"\n    },\n    \"quantity\" : 50,\n    \"updatedAt\" : \"2025-03-25T14:39:13.519799\"\n  }, {\n    \"stockId\" : {\n      \"productId\" : \"7720e2e3-d731-3305-80a6-36bb1c279685\",\n      \"hubId\" : \"9044acae-de31-3314-a4da-e54e2b995891\"\n    },\n    \"quantity\" : 100,\n    \"updatedAt\" : \"2025-03-25T14:39:13.508454\"\n  } ],\n  \"page\" : 0,\n  \"size\" : 10,\n  \"totalElements\" : 2,\n  \"totalPages\" : 1\n}"
+                  },
+                  "재고 검색 - 페이지 크기" : {
+                    "value" : "{\n  \"content\" : [ {\n    \"stockId\" : {\n      \"productId\" : \"7720e2e3-d731-3305-80a6-36bb1c279685\",\n      \"hubId\" : \"0ce82843-b80c-324b-bf3a-f50a677a4402\"\n    },\n    \"quantity\" : 75,\n    \"updatedAt\" : \"2025-03-25T14:39:13.522323\"\n  }, {\n    \"stockId\" : {\n      \"productId\" : \"d36cf398-1c5b-35e6-aa62-9bf7c17e6e00\",\n      \"hubId\" : \"9044acae-de31-3314-a4da-e54e2b995891\"\n    },\n    \"quantity\" : 50,\n    \"updatedAt\" : \"2025-03-25T14:39:13.519799\"\n  }, {\n    \"stockId\" : {\n      \"productId\" : \"7720e2e3-d731-3305-80a6-36bb1c279685\",\n      \"hubId\" : \"9044acae-de31-3314-a4da-e54e2b995891\"\n    },\n    \"quantity\" : 100,\n    \"updatedAt\" : \"2025-03-25T14:39:13.508454\"\n  } ],\n  \"page\" : 0,\n  \"size\" : 30,\n  \"totalElements\" : 3,\n  \"totalPages\" : 1\n}"
+                  },
+                  "재고 검색 - 상품 ID" : {
+                    "value" : "{\n  \"content\" : [ {\n    \"stockId\" : {\n      \"productId\" : \"7720e2e3-d731-3305-80a6-36bb1c279685\",\n      \"hubId\" : \"0ce82843-b80c-324b-bf3a-f50a677a4402\"\n    },\n    \"quantity\" : 75,\n    \"updatedAt\" : \"2025-03-25T14:39:13.522323\"\n  }, {\n    \"stockId\" : {\n      \"productId\" : \"7720e2e3-d731-3305-80a6-36bb1c279685\",\n      \"hubId\" : \"9044acae-de31-3314-a4da-e54e2b995891\"\n    },\n    \"quantity\" : 100,\n    \"updatedAt\" : \"2025-03-25T14:39:13.508454\"\n  } ],\n  \"page\" : 0,\n  \"size\" : 10,\n  \"totalElements\" : 2,\n  \"totalPages\" : 1\n}"
+                  },
+                  "재고 검색 - 오름차순" : {
+                    "value" : "{\n  \"content\" : [ {\n    \"stockId\" : {\n      \"productId\" : \"7720e2e3-d731-3305-80a6-36bb1c279685\",\n      \"hubId\" : \"9044acae-de31-3314-a4da-e54e2b995891\"\n    },\n    \"quantity\" : 100,\n    \"updatedAt\" : \"2025-03-25T14:39:13.508454\"\n  }, {\n    \"stockId\" : {\n      \"productId\" : \"d36cf398-1c5b-35e6-aa62-9bf7c17e6e00\",\n      \"hubId\" : \"9044acae-de31-3314-a4da-e54e2b995891\"\n    },\n    \"quantity\" : 50,\n    \"updatedAt\" : \"2025-03-25T14:39:13.519799\"\n  }, {\n    \"stockId\" : {\n      \"productId\" : \"7720e2e3-d731-3305-80a6-36bb1c279685\",\n      \"hubId\" : \"0ce82843-b80c-324b-bf3a-f50a677a4402\"\n    },\n    \"quantity\" : 75,\n    \"updatedAt\" : \"2025-03-25T14:39:13.522323\"\n  } ],\n  \"page\" : 0,\n  \"size\" : 10,\n  \"totalElements\" : 3,\n  \"totalPages\" : 1\n}"
+                  },
+                  "재고 검색 - 모든 조건" : {
+                    "value" : "{\n  \"content\" : [ {\n    \"stockId\" : {\n      \"productId\" : \"7720e2e3-d731-3305-80a6-36bb1c279685\",\n      \"hubId\" : \"9044acae-de31-3314-a4da-e54e2b995891\"\n    },\n    \"quantity\" : 100,\n    \"updatedAt\" : \"2025-03-25T14:39:13.508454\"\n  } ],\n  \"page\" : 0,\n  \"size\" : 30,\n  \"totalElements\" : 1,\n  \"totalPages\" : 1\n}"
+                  },
+                  "재고 검색 - 정렬 기준" : {
+                    "value" : "{\n  \"content\" : [ {\n    \"stockId\" : {\n      \"productId\" : \"7720e2e3-d731-3305-80a6-36bb1c279685\",\n      \"hubId\" : \"0ce82843-b80c-324b-bf3a-f50a677a4402\"\n    },\n    \"quantity\" : 75,\n    \"updatedAt\" : \"2025-03-25T14:39:13.522323\"\n  }, {\n    \"stockId\" : {\n      \"productId\" : \"d36cf398-1c5b-35e6-aa62-9bf7c17e6e00\",\n      \"hubId\" : \"9044acae-de31-3314-a4da-e54e2b995891\"\n    },\n    \"quantity\" : 50,\n    \"updatedAt\" : \"2025-03-25T14:39:13.519799\"\n  }, {\n    \"stockId\" : {\n      \"productId\" : \"7720e2e3-d731-3305-80a6-36bb1c279685\",\n      \"hubId\" : \"9044acae-de31-3314-a4da-e54e2b995891\"\n    },\n    \"quantity\" : 100,\n    \"updatedAt\" : \"2025-03-25T14:39:13.508454\"\n  } ],\n  \"page\" : 0,\n  \"size\" : 10,\n  \"totalElements\" : 3,\n  \"totalPages\" : 1\n}"
+                  },
+                  "재고 검색 - 기본" : {
+                    "value" : "{\n  \"content\" : [ {\n    \"stockId\" : {\n      \"productId\" : \"7720e2e3-d731-3305-80a6-36bb1c279685\",\n      \"hubId\" : \"0ce82843-b80c-324b-bf3a-f50a677a4402\"\n    },\n    \"quantity\" : 75,\n    \"updatedAt\" : \"2025-03-25T14:39:13.522323\"\n  }, {\n    \"stockId\" : {\n      \"productId\" : \"d36cf398-1c5b-35e6-aa62-9bf7c17e6e00\",\n      \"hubId\" : \"9044acae-de31-3314-a4da-e54e2b995891\"\n    },\n    \"quantity\" : 50,\n    \"updatedAt\" : \"2025-03-25T14:39:13.519799\"\n  }, {\n    \"stockId\" : {\n      \"productId\" : \"7720e2e3-d731-3305-80a6-36bb1c279685\",\n      \"hubId\" : \"9044acae-de31-3314-a4da-e54e2b995891\"\n    },\n    \"quantity\" : 100,\n    \"updatedAt\" : \"2025-03-25T14:39:13.508454\"\n  } ],\n  \"page\" : 0,\n  \"size\" : 10,\n  \"totalElements\" : 3,\n  \"totalPages\" : 1\n}"
+                  },
+                  "재고 검색 - 페이지 번호" : {
+                    "value" : "{\n  \"content\" : [ {\n    \"stockId\" : {\n      \"productId\" : \"d36cf398-1c5b-35e6-aa62-9bf7c17e6e00\",\n      \"hubId\" : \"9044acae-de31-3314-a4da-e54e2b995891\"\n    },\n    \"quantity\" : 50,\n    \"updatedAt\" : \"2025-03-25T14:39:13.519799\"\n  }, {\n    \"stockId\" : {\n      \"productId\" : \"7720e2e3-d731-3305-80a6-36bb1c279685\",\n      \"hubId\" : \"9044acae-de31-3314-a4da-e54e2b995891\"\n    },\n    \"quantity\" : 100,\n    \"updatedAt\" : \"2025-03-25T14:39:13.508454\"\n  } ],\n  \"page\" : 1,\n  \"size\" : 10,\n  \"totalElements\" : 3,\n  \"totalPages\" : 1\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/app/stock/abort" : {
+      "post" : {
+        "tags" : [ "Stock-Internal" ],
+        "summary" : "재고 취소",
+        "description" : "주문 취소를 위해 여러 재고의 수량을 복구합니다",
+        "operationId" : "재고 취소 및 복구",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v1-app-stock-abort411578598"
+              },
+              "examples" : {
+                "재고 취소 및 복구" : {
+                  "value" : "{\n  \"stocks\" : [ {\n    \"stockId\" : {\n      \"productId\" : \"cd6088ce-2901-3d22-a99a-bc11403ffc0b\",\n      \"hubId\" : \"57038876-ed33-3850-8182-76bb0dd4893a\"\n    },\n    \"quantity\" : 10\n  }, {\n    \"stockId\" : {\n      \"productId\" : \"c67e5c10-da58-3890-bda2-8024e3f1711d\",\n      \"hubId\" : \"57038876-ed33-3850-8182-76bb0dd4893a\"\n    },\n    \"quantity\" : 15\n  } ]\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200"
+          }
+        }
+      }
+    },
+    "/api/v1/app/stock/all-by-hub" : {
+      "delete" : {
+        "tags" : [ "Stock-Internal" ],
+        "summary" : "허브 ID로 모든 재고 삭제",
+        "description" : "허브 ID에 해당하는 모든 재고를 삭제합니다(재고가 남아있지 않은 경우)",
+        "operationId" : "허브 ID로 모든 재고 삭제",
+        "parameters" : [ {
+          "name" : "hubId",
+          "in" : "query",
+          "description" : "삭제할 허브 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200"
+          }
+        },
+        "security" : [ {
+          "bearerAuthJWT" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/app/stock/all-by-product" : {
+      "delete" : {
+        "tags" : [ "Stock-Internal" ],
+        "summary" : "상품 ID로 모든 재고 삭제",
+        "description" : "상품 ID에 해당하는 모든 재고를 삭제합니다(재고가 남아있지 않은 경우)",
+        "operationId" : "상품 ID로 모든 재고 삭제",
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "query",
+          "description" : "삭제할 상품 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200"
+          }
+        },
+        "security" : [ {
+          "bearerAuthJWT" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/app/stock/prepare" : {
+      "post" : {
+        "tags" : [ "Stock-Internal" ],
+        "summary" : "재고 준비",
+        "description" : "주문 준비를 위해 여러 재고의 수량을 차감합니다",
+        "operationId" : "재고 준비를 위한 차감",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v1-app-stock-prepare684092902"
+              },
+              "examples" : {
+                "재고 준비를 위한 차감" : {
+                  "value" : "{\n  \"stocks\" : [ {\n    \"stockId\" : {\n      \"productId\" : \"0d98dad3-689d-37a1-bbb0-fef1e18629e0\",\n      \"hubId\" : \"926291c9-3cfc-3c36-9404-038611d0cba5\"\n    },\n    \"quantity\" : 10\n  }, {\n    \"stockId\" : {\n      \"productId\" : \"4210ca14-7391-331c-8276-00f77529ae94\",\n      \"hubId\" : \"926291c9-3cfc-3c36-9404-038611d0cba5\"\n    },\n    \"quantity\" : 15\n  } ]\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200"
+          }
+        }
+      }
     }
-  ],
-  "tags": [
-    {
-      "name": "Stock-Internal",
-      "description": "재고 관리 내부 API"
+  },
+  "components" : {
+    "schemas" : {
+      "api-v1-app-stock-prepare684092902" : {
+        "required" : [ "stocks" ],
+        "type" : "object",
+        "properties" : {
+          "stocks" : {
+            "type" : "array",
+            "description" : "준비할 재고 목록",
+            "items" : {
+              "required" : [ "quantity", "stockId" ],
+              "type" : "object",
+              "properties" : {
+                "quantity" : {
+                  "type" : "number",
+                  "description" : "준비할 수량"
+                },
+                "stockId" : {
+                  "required" : [ "hubId", "productId" ],
+                  "type" : "object",
+                  "properties" : {
+                    "hubId" : {
+                      "type" : "string",
+                      "description" : "허브 ID"
+                    },
+                    "productId" : {
+                      "type" : "string",
+                      "description" : "상품 ID"
+                    }
+                  },
+                  "description" : "재고 ID 정보"
+                }
+              }
+            }
+          }
+        }
+      },
+      "api-v1-products1432667872" : {
+        "required" : [ "companyId", "hubId", "name", "quantity" ],
+        "type" : "object",
+        "properties" : {
+          "hubId" : {
+            "type" : "string",
+            "description" : "허브 ID"
+          },
+          "companyId" : {
+            "type" : "string",
+            "description" : "업체 ID"
+          },
+          "quantity" : {
+            "type" : "number",
+            "description" : "초기 재고 수량 (null 가능, 기본값 0)"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "상품 이름"
+          }
+        }
+      },
+      "api-v1-app-stock-658614085" : {
+        "required" : [ "quantity", "stockId" ],
+        "type" : "object",
+        "properties" : {
+          "quantity" : {
+            "type" : "number",
+            "description" : "재고 수량"
+          },
+          "stockId" : {
+            "required" : [ "hubId", "productId" ],
+            "type" : "object",
+            "properties" : {
+              "hubId" : {
+                "type" : "string",
+                "description" : "허브 ID"
+              },
+              "productId" : {
+                "type" : "string",
+                "description" : "상품 ID"
+              }
+            },
+            "description" : "재고 ID 정보"
+          }
+        }
+      },
+      "api-v1-stock-499219079" : {
+        "required" : [ "hubId", "productId" ],
+        "type" : "object",
+        "properties" : {
+          "hubId" : {
+            "type" : "string",
+            "description" : "조회할 허브 ID"
+          },
+          "productId" : {
+            "type" : "string",
+            "description" : "조회할 상품 ID"
+          }
+        }
+      },
+      "api-v1-stock-increase1920300722" : {
+        "required" : [ "quantity", "stockId" ],
+        "type" : "object",
+        "properties" : {
+          "quantity" : {
+            "type" : "number",
+            "description" : "증가시킬 수량"
+          },
+          "stockId" : {
+            "required" : [ "hubId", "productId" ],
+            "type" : "object",
+            "properties" : {
+              "hubId" : {
+                "type" : "string",
+                "description" : "허브 ID"
+              },
+              "productId" : {
+                "type" : "string",
+                "description" : "상품 ID"
+              }
+            },
+            "description" : "재고 ID 정보"
+          }
+        }
+      },
+      "api-v1-stock-1972769597" : {
+        "required" : [ "hubId", "productId" ],
+        "type" : "object",
+        "properties" : {
+          "hubId" : {
+            "type" : "string",
+            "description" : "삭제할 허브 ID"
+          },
+          "productId" : {
+            "type" : "string",
+            "description" : "삭제할 상품 ID"
+          }
+        }
+      },
+      "api-v1-stock-decrease-1796334445" : {
+        "required" : [ "quantity", "stockId" ],
+        "type" : "object",
+        "properties" : {
+          "quantity" : {
+            "type" : "number",
+            "description" : "감소시킬 수량"
+          },
+          "stockId" : {
+            "required" : [ "hubId", "productId" ],
+            "type" : "object",
+            "properties" : {
+              "hubId" : {
+                "type" : "string",
+                "description" : "허브 ID"
+              },
+              "productId" : {
+                "type" : "string",
+                "description" : "상품 ID"
+              }
+            },
+            "description" : "재고 ID 정보"
+          }
+        }
+      },
+      "api-v1-app-stock-abort411578598" : {
+        "required" : [ "stocks" ],
+        "type" : "object",
+        "properties" : {
+          "stocks" : {
+            "type" : "array",
+            "description" : "취소할 재고 목록",
+            "items" : {
+              "required" : [ "quantity", "stockId" ],
+              "type" : "object",
+              "properties" : {
+                "quantity" : {
+                  "type" : "number",
+                  "description" : "취소할 수량"
+                },
+                "stockId" : {
+                  "required" : [ "hubId", "productId" ],
+                  "type" : "object",
+                  "properties" : {
+                    "hubId" : {
+                      "type" : "string",
+                      "description" : "허브 ID"
+                    },
+                    "productId" : {
+                      "type" : "string",
+                      "description" : "상품 ID"
+                    }
+                  },
+                  "description" : "재고 ID 정보"
+                }
+              }
+            }
+          }
+        }
+      },
+      "api-v1-products486549215" : {
+        "type" : "object"
+      },
+      "api-v1-products-productId-1777284481" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "변경할 상품 이름"
+          }
+        }
+      }
     },
-    {
-      "name": "Stock-External",
-      "description": "재고 관리 외부 API"
-    },
-    {
-      "name": "Product-External",
-      "description": "상품 관리 외부 API"
+    "securitySchemes" : {
+      "bearerAuthJWT" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
     }
-  ],
-  "paths": {
-    "/api/v1/products": {
-      "post": {
-        "tags": [
-          "Product-External"
-        ],
-        "summary": "상품 생성",
-        "description": "상품을 생성하기 위한 엔드포인트입니다.",
-        "operationId": "상품 생성 - ",
-        "requestBody": {
-          "content": {
-            "application/json;charset=UTF-8": {
-              "schema": {
-                "$ref": "#/components/schemas/api-v1-products1432667872"
-              },
-              "examples": {
-                "상품 생성 - 필수 필드 입력": {
-                  "value": "{\n  \"name\" : \"유기농 바나나\",\n  \"companyId\" : \"df655f97-6f7c-3d32-a381-5bd981225cd9\",\n  \"hubId\" : \"e8bd6fc6-837f-3ccb-a4c3-6eddf0a4faed\",\n  \"quantity\" : 100\n}"
-                },
-                "상품 생성 - 기본 재고 수량": {
-                  "value": "{\n  \"name\" : \"프리미엄 사과\",\n  \"companyId\" : \"d196a280-9711-3067-befd-73d25b0c0be8\",\n  \"hubId\" : \"a1a3a2e2-06e0-3099-861a-3f830891dd80\",\n  \"quantity\" : 0\n}"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "201",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/api-v1-products486549215"
-                },
-                "examples": {
-                  "상품 생성 - 필수 필드 입력": {
-                    "value": "{\n  \"productId\" : \"334e1954-4a1f-4017-b4db-e5fef225dd50\",\n  \"name\" : \"유기농 바나나\",\n  \"companyId\" : \"df655f97-6f7c-3d32-a381-5bd981225cd9\",\n  \"hubId\" : \"e8bd6fc6-837f-3ccb-a4c3-6eddf0a4faed\",\n  \"quantity\" : 100,\n  \"createdAt\" : \"2025-03-21T12:00:00\"\n}"
-                  },
-                  "상품 생성 - 기본 재고 수량": {
-                    "value": "{\n  \"productId\" : \"90efd2a2-85ac-4bb9-8055-59a458345bf6\",\n  \"name\" : \"프리미엄 사과\",\n  \"companyId\" : \"d196a280-9711-3067-befd-73d25b0c0be8\",\n  \"hubId\" : \"a1a3a2e2-06e0-3099-861a-3f830891dd80\",\n  \"quantity\" : 0,\n  \"createdAt\" : \"2025-03-21T12:00:00\"\n}"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuthJWT": []
-          }
-        ]
-      }
-    },
-    "/api/v1/stock": {
-      "get": {
-        "tags": [
-          "Stock-External"
-        ],
-        "summary": "재고 ID로 조회",
-        "description": "재고 ID로 재고를 조회합니다",
-        "operationId": "재고 ID로 조회",
-        "requestBody": {
-          "content": {
-            "application/json;charset=UTF-8": {
-              "schema": {
-                "$ref": "#/components/schemas/api-v1-stock-499219079"
-              },
-              "examples": {
-                "재고 ID로 조회": {
-                  "value": "{\n  \"productId\" : \"2529685c-9efe-3c04-89ab-e130961edca0\",\n  \"hubId\" : \"c5e5ceac-0fa5-324e-8a4d-7f89af3cecbe\"\n}"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "200",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/api-v1-products486549215"
-                },
-                "examples": {
-                  "재고 ID로 조회": {
-                    "value": "{\n  \"stockId\" : {\n    \"productId\" : \"2529685c-9efe-3c04-89ab-e130961edca0\",\n    \"hubId\" : \"c5e5ceac-0fa5-324e-8a4d-7f89af3cecbe\"\n  },\n  \"quantity\" : 100,\n  \"updatedAt\" : \"2025-03-25T14:39:13.783471\"\n}"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Stock-External"
-        ],
-        "summary": "재고 삭제",
-        "description": "재고를 삭제합니다",
-        "operationId": "재고 삭제",
-        "requestBody": {
-          "content": {
-            "application/json;charset=UTF-8": {
-              "schema": {
-                "$ref": "#/components/schemas/api-v1-stock-1972769597"
-              },
-              "examples": {
-                "재고 삭제": {
-                  "value": "{\n  \"productId\" : \"fc591f49-0dd3-3040-9ceb-e2b6cdf629a9\",\n  \"hubId\" : \"44c919f6-9d06-3c16-ad89-f74faca11d51\"\n}"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "204": {
-            "description": "204"
-          }
-        },
-        "security": [
-          {
-            "bearerAuthJWT": []
-          }
-        ]
-      }
-    },
-    "/api/v1/app/stock": {
-      "get": {
-        "tags": [
-          "Stock-Internal"
-        ],
-        "summary": "상품 ID로 재고 조회",
-        "description": "상품 ID로 재고를 조회합니다",
-        "operationId": "상품 ID로 재고 조회",
-        "parameters": [
-          {
-            "name": "productId",
-            "in": "query",
-            "description": "상품 ID",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "200",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/api-v1-products486549215"
-                },
-                "examples": {
-                  "상품 ID로 재고 조회": {
-                    "value": "{\n  \"stockId\" : {\n    \"productId\" : \"f26b0d8f-252a-36f2-b993-37cced08314b\",\n    \"hubId\" : \"a1a3a2e2-06e0-3099-861a-3f830891dd80\"\n  },\n  \"quantity\" : 100,\n  \"updatedAt\" : \"2025-03-25T14:39:13.88917\"\n}"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Stock-Internal"
-        ],
-        "summary": "재고 생성",
-        "description": "재고를 생성하기 위한 엔드포인트입니다.",
-        "operationId": "재고 생성",
-        "requestBody": {
-          "content": {
-            "application/json;charset=UTF-8": {
-              "schema": {
-                "$ref": "#/components/schemas/api-v1-app-stock-658614085"
-              },
-              "examples": {
-                "재고 생성": {
-                  "value": "{\n  \"stockId\" : {\n    \"productId\" : \"cf682b73-be1a-3ad4-bd0f-32559ac34627\",\n    \"hubId\" : \"e8bd6fc6-837f-3ccb-a4c3-6eddf0a4faed\"\n  },\n  \"quantity\" : 100\n}"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "200",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/api-v1-products486549215"
-                },
-                "examples": {
-                  "재고 생성": {
-                    "value": "{\n  \"stockId\" : {\n    \"productId\" : \"cf682b73-be1a-3ad4-bd0f-32559ac34627\",\n    \"hubId\" : \"e8bd6fc6-837f-3ccb-a4c3-6eddf0a4faed\"\n  },\n  \"quantity\" : 100,\n  \"createdAt\" : \"2025-03-25T14:39:13.851697\"\n}"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuthJWT": []
-          }
-        ]
-      }
-    },
-    "/api/v1/products/search": {
-      "get": {
-        "tags": [
-          "Product-External"
-        ],
-        "summary": "상품 정렬 및 페이징 검색",
-        "description": "정렬 및 페이징 옵션을 적용하여 검색합니다.",
-        "operationId": "상품 ",
-        "parameters": [
-          {
-            "name": "sortBy",
-            "in": "query",
-            "description": "정렬 기준 필드 (기본값: createdAt)",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "isAsc",
-            "in": "query",
-            "description": "오름차순 여부 (true: 오름차순, false: 내림차순, 기본값: false)",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "페이지 번호 (0부터 시작, 기본값: 0)",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "description": "페이지 크기 (유효한 값: 10, 30, 50, 기본값: 10)",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "description": "검색할 상품 이름",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "companyId",
-            "in": "query",
-            "description": "검색할 업체 ID",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "200",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/api-v1-products486549215"
-                },
-                "examples": {
-                  "상품 정렬 및 페이징 검색": {
-                    "value": "{\n  \"content\" : [ {\n    \"productId\" : \"d0aa80b3-ca4d-438c-acd8-cef990c80d4b\",\n    \"name\" : \"유기농 바나나\",\n    \"companyId\" : \"65ea5875-9487-3112-b8c2-34e510c34817\",\n    \"createdAt\" : \"2025-03-25T14:39:09.312948\",\n    \"updatedAt\" : \"2025-03-25T14:39:09.312948\"\n  }, {\n    \"productId\" : \"f28fb892-884a-43c1-8420-bc26f9294598\",\n    \"name\" : \"프리미엄 사과\",\n    \"companyId\" : \"65ea5875-9487-3112-b8c2-34e510c34817\",\n    \"createdAt\" : \"2025-03-25T14:39:09.315572\",\n    \"updatedAt\" : \"2025-03-25T14:39:09.315572\"\n  } ],\n  \"page\" : 0,\n  \"size\" : 10,\n  \"totalElements\" : 2,\n  \"totalPages\" : 1\n}"
-                  },
-                  "상품 이름으로 검색": {
-                    "value": "{\n  \"content\" : [ {\n    \"productId\" : \"f28fb892-884a-43c1-8420-bc26f9294598\",\n    \"name\" : \"프리미엄 사과\",\n    \"companyId\" : \"65ea5875-9487-3112-b8c2-34e510c34817\",\n    \"createdAt\" : \"2025-03-25T14:39:09.315572\",\n    \"updatedAt\" : \"2025-03-25T14:39:09.315572\"\n  }, {\n    \"productId\" : \"d0aa80b3-ca4d-438c-acd8-cef990c80d4b\",\n    \"name\" : \"유기농 바나나\",\n    \"companyId\" : \"65ea5875-9487-3112-b8c2-34e510c34817\",\n    \"createdAt\" : \"2025-03-25T14:39:09.312948\",\n    \"updatedAt\" : \"2025-03-25T14:39:09.312948\"\n  } ],\n  \"page\" : 0,\n  \"size\" : 10,\n  \"totalElements\" : 2,\n  \"totalPages\" : 1\n}"
-                  },
-                  "상품 검색 - 기본": {
-                    "value": "{\n  \"content\" : [ {\n    \"productId\" : \"f28fb892-884a-43c1-8420-bc26f9294598\",\n    \"name\" : \"프리미엄 사과\",\n    \"companyId\" : \"65ea5875-9487-3112-b8c2-34e510c34817\",\n    \"createdAt\" : \"2025-03-25T14:39:09.315572\",\n    \"updatedAt\" : \"2025-03-25T14:39:09.315572\"\n  }, {\n    \"productId\" : \"d0aa80b3-ca4d-438c-acd8-cef990c80d4b\",\n    \"name\" : \"유기농 바나나\",\n    \"companyId\" : \"65ea5875-9487-3112-b8c2-34e510c34817\",\n    \"createdAt\" : \"2025-03-25T14:39:09.312948\",\n    \"updatedAt\" : \"2025-03-25T14:39:09.312948\"\n  } ],\n  \"page\" : 0,\n  \"size\" : 10,\n  \"totalElements\" : 2,\n  \"totalPages\" : 1\n}"
-                  },
-                  "상품 업체 ID로 검색": {
-                    "value": "{\n  \"content\" : [ {\n    \"productId\" : \"f28fb892-884a-43c1-8420-bc26f9294598\",\n    \"name\" : \"프리미엄 사과\",\n    \"companyId\" : \"65ea5875-9487-3112-b8c2-34e510c34817\",\n    \"createdAt\" : \"2025-03-25T14:39:09.315572\",\n    \"updatedAt\" : \"2025-03-25T14:39:09.315572\"\n  }, {\n    \"productId\" : \"d0aa80b3-ca4d-438c-acd8-cef990c80d4b\",\n    \"name\" : \"유기농 바나나\",\n    \"companyId\" : \"65ea5875-9487-3112-b8c2-34e510c34817\",\n    \"createdAt\" : \"2025-03-25T14:39:09.312948\",\n    \"updatedAt\" : \"2025-03-25T14:39:09.312948\"\n  } ],\n  \"page\" : 0,\n  \"size\" : 10,\n  \"totalElements\" : 2,\n  \"totalPages\" : 1\n}"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/products/{productId}": {
-      "get": {
-        "tags": [
-          "Product-External"
-        ],
-        "summary": "상품 정보 조회",
-        "description": "상품 정보를 조회합니다",
-        "operationId": "상품 정보 조회",
-        "parameters": [
-          {
-            "name": "productId",
-            "in": "path",
-            "description": "조회할 상품 ID",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "200",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/api-v1-products486549215"
-                },
-                "examples": {
-                  "상품 정보 조회": {
-                    "value": "{\n  \"productId\" : \"d72a7f58-5eb9-40cc-8998-211f60808994\",\n  \"name\" : \"유기농 바나나\",\n  \"companyId\" : \"856dfd90-4554-3fa7-a7ef-6ad392835eb0\",\n  \"createdAt\" : \"2025-03-25T14:39:09.26821\",\n  \"updatedAt\" : \"2025-03-25T14:39:09.26821\"\n}"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Product-External"
-        ],
-        "summary": "상품 삭제",
-        "description": "상품을 삭제합니다",
-        "operationId": "상품 삭제",
-        "parameters": [
-          {
-            "name": "productId",
-            "in": "path",
-            "description": "삭제할 상품 ID",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "204"
-          }
-        },
-        "security": [
-          {
-            "bearerAuthJWT": []
-          }
-        ]
-      },
-      "patch": {
-        "tags": [
-          "Product-External"
-        ],
-        "summary": "상품 이름 수정",
-        "description": "상품 이름을 수정합니다",
-        "operationId": "상품 이름 수정",
-        "parameters": [
-          {
-            "name": "productId",
-            "in": "path",
-            "description": "수정할 상품 ID",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json;charset=UTF-8": {
-              "schema": {
-                "$ref": "#/components/schemas/api-v1-products-productId-1777284481"
-              },
-              "examples": {
-                "상품 이름 수정": {
-                  "value": "{\n  \"name\" : \"프리미엄 유기농 바나나\"\n}"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "200",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/api-v1-products486549215"
-                },
-                "examples": {
-                  "상품 이름 수정": {
-                    "value": "{\n  \"productId\" : \"cdee4f2a-5c35-48a7-8651-5d5cca354e66\",\n  \"name\" : \"프리미엄 유기농 바나나\",\n  \"companyId\" : \"e828ae33-39b8-380b-b902-c1564578804e\",\n  \"updatedAt\" : \"2025-03-25T14:39:09.158336\"\n}"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuthJWT": []
-          }
-        ]
-      }
-    },
-    "/api/v1/stock/decrease": {
-      "patch": {
-        "tags": [
-          "Stock-External"
-        ],
-        "summary": "재고 수량 감소",
-        "description": "재고 수량을 감소시킵니다",
-        "operationId": "재고 수량 감소",
-        "requestBody": {
-          "content": {
-            "application/json;charset=UTF-8": {
-              "schema": {
-                "$ref": "#/components/schemas/api-v1-stock-decrease-1796334445"
-              },
-              "examples": {
-                "재고 수량 감소": {
-                  "value": "{\n  \"stockId\" : {\n    \"productId\" : \"c0f1d4e2-8de1-3be5-9e7b-af5b41e58583\",\n    \"hubId\" : \"5c2aa03d-7634-3093-
+  }
+}
